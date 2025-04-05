@@ -1,56 +1,60 @@
 /**
- *  @module p5.sound
- *  @submodule p5.sound
- *  @for p5.sound
+ * @module p5.sound
+ * @submodule p5.sound
+ * @for p5.sound
  */
 
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Reverb as ToneReverb } from "tone/build/esm/effect/Reverb.js";
+import Effect from './Effect'; // Import the Effect superclass
 
 /**
  * Add reverb to a sound.
  * @class Reverb
  * @constructor
+ * @extends Effect
  * @param {Number} [decayTime] Set the decay time of the reverb
  * @example
  * <div>
  * <code>
  * let noise, osc, env, reverb;
  * let randomTime = 0;
- * 
+ *
  * function setup() {
- *   let cnv = createCanvas(100, 100);
- *   cnv.mousePressed(playSound);
- *   noise = new p5.Noise();
- *   env = new p5.Envelope();
- *   reverb = new p5.Reverb();
- *   noise.disconnect();
- *   noise.connect(env);
- *   env.disconnect();
- *   env.connect(reverb);
- *   noise.start();
- *   textAlign(CENTER);
+ * let cnv = createCanvas(100, 100);
+ * cnv.mousePressed(playSound);
+ * noise = new p5.Noise();
+ * env = new p5.Envelope();
+ * reverb = new p5.Reverb();
+ * noise.disconnect();
+ * noise.connect(env);
+ * env.disconnect();
+ * env.connect(reverb);
+ * noise.start();
+ * textAlign(CENTER);
  * }
- * 
+ *
  * function playSound() {
- *  randomTime = random(0.1, 3);
- *  reverb.set(randomTime); 
- *  env.play();
+ * randomTime = random(0.1, 3);
+ * reverb.set(randomTime);
+ * env.play();
  * }
- * 
+ *
  * function draw() {
- *   background(220);
- *   text('click to play', width/2, 20);
- *   text('decay ' + round(randomTime, 2), width/2, 40);
- *   describe('Click to play a sound with a random decay time.');
+ * background(220);
+ * text('click to play', width/2, 20);
+ * text('decay ' + round(randomTime, 2), width/2, 40);
+ * describe('Click to play a sound with a random decay time.');
  * }
  * </code>
  * </div>
  */
-class Reverb {
+class Reverb extends Effect { // Extend Effect
   constructor(decayTime) {
+    super(); // Call superclass constructor
     this.decayTime = decayTime || 1;
     this.reverb = new ToneReverb(this.decayTime).toDestination();
+    this.input = this.reverb; // Set this.input
   }
 
   /**
@@ -73,18 +77,12 @@ class Reverb {
     this.reverb.wet.value = t;
   }
 
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.reverb.connect(destination.getNode());
-    } else {
-      this.reverb.connect(destination);
-    }
-  }
-  
-  disconnect() {
-    this.reverb.disconnect(ToneContext.destination);
-  }
-
+  /**
+   * Get the Web Audio API node.
+   * @method getNode
+   * @for Reverb
+   * @return {Object} The Web Audio API node.
+   */
   getNode() {
     return this.reverb;
   }

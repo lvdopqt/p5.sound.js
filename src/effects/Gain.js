@@ -1,57 +1,61 @@
 /**
- *  @module p5.sound
- *  @submodule p5.sound
- *  @for p5.sound
+ * @module p5.sound
+ * @submodule p5.sound
+ * @for p5.sound
  */
 
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { Gain as ToneGain } from "tone/build/esm/core/context/Gain.js";
+import Effect from './Effect'; // Import the Effect superclass
 
 /**
  * Generate a gain node to use for mixing and main volume.
  * @class Gain
  * @constructor
+ * @extends Effect
  * @example
  * <div>
  * <code>
  * let cnv, soundFile, osc, gain;
- * 
+ *
  * function preload() {
- *   soundFile = loadSound('assets/Damscray_DancingTiger.mp3');
+ * soundFile = loadSound('assets/Damscray_DancingTiger.mp3');
  * }
- * 
+ *
  * function setup() {
- *   cnv = createCanvas(100, 100);
- *   cnv.mousePressed(playSound);
- * 
- *   gain = new p5.Gain(0.74);
- *   osc = new p5.Oscillator();
- *   osc.amp(0.74);
- *   osc.disconnect();
- *   soundFile.loop();
- *   soundFile.disconnect();
- * 
- *   //connect both sound sources to gain node
- *   soundFile.connect(gain);
- *   osc.connect(gain);
+ * cnv = createCanvas(100, 100);
+ * cnv.mousePressed(playSound);
+ *
+ * gain = new p5.Gain(0.74);
+ * osc = new p5.Oscillator();
+ * osc.amp(0.74);
+ * osc.disconnect();
+ * soundFile.loop();
+ * soundFile.disconnect();
+ *
+ * //connect both sound sources to gain node
+ * soundFile.connect(gain);
+ * osc.connect(gain);
  * }
- * 
+ *
  * function playSound() {
- *   soundFile.play();
- *   soundFile.play();
+ * soundFile.play();
+ * soundFile.play();
  * }
- * 
+ *
  * function draw() {
- *   background(220);
- *   let level = map(mouseX, 0, width, 0, 1);
- *   gain.amp(level);
+ * background(220);
+ * let level = map(mouseX, 0, width, 0, 1);
+ * gain.amp(level);
  * }
  * </code>
  * </div>
  */
-class Gain {
+class Gain extends Effect { // Extend Effect
   constructor(value = 1) {
+    super(); // Call superclass constructor
     this.gain = new ToneGain(value).toDestination();
+    this.input = this.gain; // Set this.input
   }
 
   /**
@@ -68,18 +72,12 @@ class Gain {
     this.gain.gain.rampTo(value, 0.1);
   }
 
-  connect(destination) {
-    if(typeof destination.getNode === 'function') {
-      this.gain.connect(destination.getNode());
-    } else {
-      this.gain.connect(destination);
-    }
-  }
-
-  disconnect() {
-    this.gain.disconnect(ToneContext.destination);
-  }
-
+  /**
+   * Get the Web Audio API node.
+   * @method getNode
+   * @for Gain
+   * @return {Object} The Web Audio API node.
+   */
   getNode() {
     return this.gain;
   }

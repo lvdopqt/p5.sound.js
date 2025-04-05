@@ -1,16 +1,18 @@
 /**
- *  @module p5.sound
- *  @submodule p5.sound
- *  @for p5.sound
+ * @module p5.sound
+ * @submodule p5.sound
+ * @for p5.sound
  */
 
 import { Context as ToneContext } from "tone/build/esm/core/context/Context.js";
 import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/component/envelope/AmplitudeEnvelope.js";
+import Effect from './Effect'; // Import the Effect superclass
 
 /**
  * Generate an amplitude envelope.
  * @class Envelope
  * @constructor
+ * @extends Effect
  * @param {Number} [attack] how quickly the envelope reaches the maximum level
  * @param {Number} [decay] how quickly the envelope reaches the sustain level
  * @param {Number} [sustain] how long the envelope stays at the decay level
@@ -22,8 +24,9 @@ import { AmplitudeEnvelope as ToneAmplitudeEnvelope } from "tone/build/esm/compo
  * </code>
  * </div>
  */
-class Envelope {
+class Envelope extends Effect { // Extend Effect
   constructor(a = 0.1, d = 0.12, s = 0.1, r = 0.2) {
+    super(); // Call superclass constructor
     this.attack = a;
     this.attackLevel = 1;
     this.decay = d;
@@ -36,6 +39,7 @@ class Envelope {
       sustain: this.sustain,
       release: this.release,
     }).toDestination();
+    this.input = this.envelope; // Set this.input
   }
 
   /**
@@ -56,35 +60,35 @@ class Envelope {
    * <div>
    * <code>
    * let osc, env;
-   * 
+   *
    * function setup() {
-   *   let cnv = createCanvas(100, 100);
-   *   background(220);
-   *   cnv.mousePressed(playSound);
-   *   cnv.mouseReleased(stopSound);
-   *   textAlign(CENTER);
-   *   textSize(10);
-   *   text('tap to triggerAttack', width/2, height/2);
-   * 
-   *   osc = new p5.Oscillator();
-   *   osc.disconnect();
-   *   env = new p5.Envelope();
-   *   osc.connect(env);
+   * let cnv = createCanvas(100, 100);
+   * background(220);
+   * cnv.mousePressed(playSound);
+   * cnv.mouseReleased(stopSound);
+   * textAlign(CENTER);
+   * textSize(10);
+   * text('tap to triggerAttack', width/2, height/2);
+   *
+   * osc = new p5.Oscillator();
+   * osc.disconnect();
+   * env = new p5.Envelope();
+   * osc.connect(env);
    * }
-   * 
+   *
    * function playSound() {
-   *   background(0, 255, 255);
-   *   text('release to release', width/2, height/2);
-   *   osc.start();
-   *   env.attackTime(random(0.00, 0.25));
-   *   env.triggerAttack(0.5);
+   * background(0, 255, 255);
+   * text('release to release', width/2, height/2);
+   * osc.start();
+   * env.attackTime(random(0.00, 0.25));
+   * env.triggerAttack(0.5);
    * }
-   * 
+   *
    * function stopSound() {
-   *   background(220);
-   *   text('tap to triggerAttack', width/2, height/2);
-   *   env.releaseTime(random(0.1, 0.3));
-   *   env.triggerRelease();
+   * background(220);
+   * text('tap to triggerAttack', width/2, height/2);
+   * env.releaseTime(random(0.1, 0.3));
+   * env.triggerRelease();
    * }
    * </code>
    * </div>
@@ -94,44 +98,44 @@ class Envelope {
     this.envelope.triggerAttack();
   }
   /**
-   * Trigger the Release of the envelope. Similar to releasing the key on 
-   * a piano and letting the sound fade according to the release level and 
-   * release time. 
+   * Trigger the Release of the envelope. Similar to releasing the key on
+   * a piano and letting the sound fade according to the release level and
+   * release time.
    * @method triggerRelease
    * @for Envelope
    * @example
    * <div>
    * <code>
    * let osc, env;
-   * 
+   *
    * function setup() {
-   *   let cnv = createCanvas(100, 100);
-   *   background(220);
-   *   cnv.mousePressed(playSound);
-   *   cnv.mouseReleased(stopSound);
-   *   textAlign(CENTER);
-   *   textSize(10);
-   *   text('tap to triggerAttack', width/2, height/2);
-   * 
-   *   osc = new p5.Oscillator();
-   *   osc.disconnect();
-   *   env = new p5.Envelope();
-   *   osc.connect(env);
+   * let cnv = createCanvas(100, 100);
+   * background(220);
+   * cnv.mousePressed(playSound);
+   * cnv.mouseReleased(stopSound);
+   * textAlign(CENTER);
+   * textSize(10);
+   * text('tap to triggerAttack', width/2, height/2);
+   *
+   * osc = new p5.Oscillator();
+   * osc.disconnect();
+   * env = new p5.Envelope();
+   * osc.connect(env);
    * }
-   * 
+   *
    * function playSound() {
-   *   background(0, 255, 255);
-   *   text('release to release', width/2, height/2);
-   *   osc.start();
-   *   env.attackTime(random(0.00, 0.25));
-   *   env.triggerAttack(0.5);
+   * background(0, 255, 255);
+   * text('release to release', width/2, height/2);
+   * osc.start();
+   * env.attackTime(random(0.00, 0.25));
+   * env.triggerAttack(0.5);
    * }
-   * 
+   *
    * function stopSound() {
-   *   background(220);
-   *   text('tap to triggerAttack', width/2, height/2);
-   *   env.releaseTime(random(0.1, 0.3));
-   *   env.triggerRelease();
+   * background(220);
+   * text('tap to triggerAttack', width/2, height/2);
+   * env.releaseTime(random(0.1, 0.3));
+   * env.triggerRelease();
    * }
    * </code>
    * </div>
@@ -143,7 +147,7 @@ class Envelope {
   /**
    * @method setInput
    * @for Envelope
-   * @param {Object} unit A p5.sound Object 
+   * @param {Object} unit A p5.sound Object
    */
   setInput(input) {
     input.getNode().connect(this.envelope);
@@ -169,7 +173,7 @@ class Envelope {
    * Sets the release time of the envelope.
    * @method releaseTime
    * @for Envelope
-   * @param {Number} releaseTime the release time in seconds 
+   * @param {Number} releaseTime the release time in seconds
    */
   releaseTime(value) {
     this.envelope.release = value;
@@ -179,20 +183,18 @@ class Envelope {
    * Sets the attack time of the envelope.
    * @method attackTime
    * @for Envelope
-   * @param {Number} attackTime the attack time in seconds 
+   * @param {Number} attackTime the attack time in seconds
    */
   attackTime(value) {
     this.envelope.attack = value;
   }
 
-  connect(destination) {
-    this.envelope.connect(destination.getNode());
-  }
-
-  disconnect() {
-    this.envelope.disconnect(ToneContext.destination);
-  }
-
+  /**
+   * Get the Web Audio API node.
+   * @method getNode
+   * @for Envelope
+   * @return {Object} The Web Audio API node.
+   */
   getNode() {
     return this.envelope;
   }

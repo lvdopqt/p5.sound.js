@@ -13,27 +13,27 @@ p5.SinOsc = SinOsc;
 p5.TriOsc = TriOsc;
 p5.SqrOsc = SqrOsc;
 
-import Envelope from './Envelope';
+import Envelope from './effects/Envelope';
 p5.Envelope = Envelope;
 
-import Delay from './Delay';
+import Delay from './effects/Delay';
 p5.Delay = Delay;
 
-import Reverb from './Reverb';
+import Reverb from './effects/Reverb';
 p5.Reverb = Reverb;
 
-import Biquad from './Biquad';
+import Biquad from './effects/Biquad';
 p5.Biquad = Biquad;
 
-import {LowPass, HighPass, BandPass} from './Biquad';
+import {LowPass, HighPass, BandPass} from './effects/Biquad';
 p5.LowPass = LowPass;
 p5.HighPass = HighPass;
 p5.BandPass = BandPass;
 
-import PitchShifter from './PitchShifter';
+import PitchShifter from './effects/PitchShifter';
 p5.PitchShifter = PitchShifter;
 
-import Gain from './Gain';
+import Gain from './effects/Gain';
 p5.Gain = Gain;
 
 import Amplitude from './Amplitude';
@@ -45,10 +45,10 @@ p5.FFT = FFT;
 import Noise from './Noise';
 p5.Noise = Noise;
 
-import Panner from './Panner';
+import Panner from './effects/Panner';
 p5.Panner = Panner;
 
-import Panner3D from './Panner3D';
+import Panner3D from './effects/Panner3D';
 p5.Panner3D = Panner3D;
 
 import SoundFile, { loadSound } from './SoundFile';
