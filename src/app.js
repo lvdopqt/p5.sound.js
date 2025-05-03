@@ -1,8 +1,3 @@
-// Suppress Tone.js startup console log
-// See: https://github.com/Tonejs/Tone.js/issues/155
-// Tone.js is already credited in the README, so we silence the startup banner here for a cleaner console.
-window.TONE_SILENCE_LOGGING = true;
-
 import { getAudioContext, setAudioContext, userStartAudio, userStopAudio } from './Utils';
 p5.prototype.getAudioContext = getAudioContext;
 p5.prototype.setAudioContext = setAudioContext;

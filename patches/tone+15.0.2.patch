@@ -1,0 +1,28 @@
+diff --git a/node_modules/tone/build/esm/core/Global.js b/node_modules/tone/build/esm/core/Global.js
+index 9253e54..e1d8123 100644
+--- a/node_modules/tone/build/esm/core/Global.js
++++ b/node_modules/tone/build/esm/core/Global.js
+@@ -62,13 +62,13 @@ export function start() {
+ /**
+  * Log Tone.js + version in the console.
+  */
+-if (theWindow && !theWindow.TONE_SILENCE_LOGGING) {
+-    let prefix = "v";
+-    if (version === "dev") {
+-        prefix = "";
+-    }
+-    const printString = ` * Tone.js ${prefix}${version} * `;
+-    // eslint-disable-next-line no-console
+-    console.log(`%c${printString}`, "background: #000; color: #fff");
+-}
++// if (theWindow && !theWindow.TONE_SILENCE_LOGGING) {
++//     let prefix = "v";
++//     if (version === "dev") {
++//         prefix = "";
++//     }
++//     const printString = ` * Tone.js ${prefix}${version} * `;
++//     // eslint-disable-next-line no-console
++//     console.log(`%c${printString}`, "background: #000; color: #fff");
++// }
+ //# sourceMappingURL=Global.js.map
+\ No newline at end of file
